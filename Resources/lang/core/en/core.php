@@ -23,6 +23,10 @@ return [
         'macedonian' => 'Македонски',
         'turkish' => 'Türkçe',
         'czech' => 'Czech',
+        'dutch (belgium)' => 'Dutch (BE)',
+        'french (belgium)' => 'French (BE)',
+        'english (belgium)' => 'English (BE)',
+
     ],
     'button' => [
         'cancel' => 'Cancel',
