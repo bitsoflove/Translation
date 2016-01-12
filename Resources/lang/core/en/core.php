@@ -24,8 +24,11 @@ return [
         'turkish' => 'Türkçe',
         'czech' => 'Czech',
         'dutch (belgium)' => 'Dutch (BE)',
+        'be_NL' => 'Dutch (BE)',
+        'be_FR' => 'French (BE)',
         'french (belgium)' => 'French (BE)',
         'english (belgium)' => 'English (BE)',
+        'be_EN' => 'English (BE)',
 
     ],
     'button' => [
