@@ -3,6 +3,7 @@
 return [
     'button' => [
         'new-user' => 'New User',
+        'create user' => 'Create user'
     ],
     'title' => [
         'users' => 'Users',
