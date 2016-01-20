@@ -16,8 +16,10 @@ return [
     'form' => [
         'title' => 'Titre',
         'slug' => 'Slug',
+        'meta_data' => 'Data méta',
         'meta_title' => 'Titre méta',
         'meta_description' => 'Description méta',
+        'facebook_data' => 'Data Facebook',
         'og_title' => 'Titre Facebook',
         'og_description' => 'Description Facebook',
         'og_type' => 'Type de page',

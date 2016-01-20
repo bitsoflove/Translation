@@ -7,6 +7,6 @@ return [
     'sent on' => 'Date:',
     'site' => 'Site:',
     'form' => [
-        'name' => 'Name',
+        'name' => 'Nom',
     ]
 ];
