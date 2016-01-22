@@ -10,7 +10,8 @@ return [
             'e-mail' => 'Je e-mailadres',
             'password' => 'Je wachtwoord'
         ],
-        'keep-logged-in' => 'Blijf aangemeld',
-        'login' => 'Aanmelden'
+        'keep logged in' => 'Blijf aangemeld',
+        'login' => 'Aanmelden',
+        'forgot password cta' => 'Mot de passe oublié?',
     ]
 ];
