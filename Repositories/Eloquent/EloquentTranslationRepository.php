@@ -1,6 +1,8 @@
 <?php namespace Modules\Translation\Repositories\Eloquent;
 
+use Illuminate\Support\Facades\Cache;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
+use Modules\Translation\Entities\Translation;
 use Modules\Translation\Entities\TranslationTranslation;
 use Modules\Translation\Repositories\TranslationRepository;
 
@@ -15,12 +17,30 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
     {
         $locale = $locale ?: app()->getLocale();
 
+
+        //cache all translations of this locale for the length of the request...
+        $that = $this;
+        $all = Cache::remember('all_translations_' . $locale, 0, function() use($locale) {
+            $all = Translation::whereHas('translations', function($q) use ($locale) {
+                $q->where('locale', $locale);
+            })->with(['translations' => function($q) use ($locale) {
+                $q->where('locale', $locale);
+            }])->get();
+            return $all->lists('value', 'key')->toArray();
+        });
+
+        //return the translation when found, or an empty string
+        return isset($all[$key]) ? $all[$key] : '';
+
+        /*
         $translation = $this->model->whereKey($key)->with('translations')->first();
         if ($translation && $translation->hasTranslation($locale)) {
             return $translation->translate($locale)->value;
         }
 
         return '';
+        */
+
     }
 
     public function allFormatted()
