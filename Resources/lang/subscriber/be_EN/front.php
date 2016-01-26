@@ -28,5 +28,5 @@ return [
         'buttons' => [
             'change_password_save' => 'Change password',
         ]
-    ],
+    ]
 ];
