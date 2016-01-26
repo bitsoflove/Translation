@@ -8,6 +8,7 @@ use Modules\Translation\Http\Requests\ImportTranslationsRequest;
 use Modules\Translation\Importers\TranslationsImporter;
 use Modules\Translation\Repositories\TranslationRepository;
 use Modules\Translation\Services\TranslationsService;
+use Modules\Translation\ValueObjects\TranslationGroup;
 use Pingpong\Modules\Facades\Module;
 
 class TranslationController extends AdminBaseController
@@ -38,6 +39,10 @@ class TranslationController extends AdminBaseController
     public function index()
     {
         $translations = $this->translationsService->getFileAndDatabaseMergedTranslations();
+        $raw = $translations->allRaw();
+        unset($raw['en']);
+
+        $translations = new TranslationGroup($raw);
 
         return view('translation::admin.translations.index', compact('translations'));
     }
