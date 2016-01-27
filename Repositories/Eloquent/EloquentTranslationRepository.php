@@ -24,7 +24,6 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
         }
 
         //sometimes we request a group of translations. for this, we need the hierarchy.
-        $keySplit = explode('.', $key);
         $allHierarchical = $this->getAllHierarchicalCached($all, $locale);
         return isset($allHierarchical[$key]) ? $allHierarchical[$key] : '';
 
@@ -49,8 +48,6 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
                 }
             }
         }
-
-        //dd($allDatabaseTranslations);
 
         return $allDatabaseTranslations;
     }
@@ -114,7 +111,6 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
             return $that->getAllHierarchical($all);
         });
     }
-
 
     /**
      * http://stackoverflow.com/a/6088147/237739
