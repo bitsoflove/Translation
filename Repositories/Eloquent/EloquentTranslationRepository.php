@@ -17,14 +17,8 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
     {
         $locale = $locale ?: app()->getLocale();
 
-        //cache all translations of this locale for the length of the request...
-        $all = $this->getAllInLocaleCached($locale);
-        if(isset($all[$key])) {
-            return $all[$key];
-        }
-
-        //sometimes we request a group of translations. for this, we need the hierarchy.
-        $allHierarchical = $this->getAllHierarchicalCached($all, $locale);
+        //cache all translations of this locale hierarchically for the length of the request...
+        $allHierarchical = $this->getAllHierarchicalCached($locale);
         return isset($allHierarchical[$key]) ? $allHierarchical[$key] : '';
 
         //legacy code...
@@ -89,14 +83,16 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
     }
 
 
-    protected function getAllInLocaleCached($locale) {
+    private function getAllHierarchicalCached($locale) {
         $that = $this;
-        return Cache::remember('all_translations_' . $locale, 0, function() use($that, $locale) {
-            return $that->getAllInLocale($locale);
+        return Cache::remember('all_translations_hierarchical_' . $locale, 0, function() use ($that, $locale) {
+            $all = $that->getAllInLocale($locale);
+            return $that->getAllHierarchical($all);
         });
     }
 
-    protected function getAllInLocale($locale) {
+
+    private function getAllInLocale($locale) {
         $all = Translation::whereHas('translations', function($q) use ($locale) {
             $q->where('locale', $locale);
         })->with(['translations' => function($q) use ($locale) {
@@ -105,19 +101,12 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
         return $all->lists('value', 'key')->toArray();
     }
 
-    protected function getAllHierarchicalCached($all, $locale) {
-        $that = $this;
-        return Cache::remember('all_translations_hierarchical_' . $locale, 0, function() use ($that, $all) {
-            return $that->getAllHierarchical($all);
-        });
-    }
-
     /**
      * http://stackoverflow.com/a/6088147/237739
      * @param $all
      * @return array
      */
-    protected function getAllHierarchical($all) {
+    private function getAllHierarchical($all) {
         $out = array();
         foreach ($all as $key=>$val) {
             $r = & $out;

@@ -17,7 +17,6 @@ class Translator extends \Illuminate\Translation\Translator
      */
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
-
         $translationRepository = app(TranslationRepository::class);
         $translation = $translationRepository->findByKeyAndLocale($key, $locale);
 
