@@ -30,7 +30,10 @@
                         <tr>
                             <th>Key</th>
                             <?php foreach (config('laravellocalization.supportedLocales') as $locale => $language): ?>
-                                <th>{{ $locale }}</th>
+
+                                @if($locale !== 'en')
+                                    <th>{{ $locale }}</th>
+                                @endif
                             <?php endforeach; ?>
                         </tr>
                         </thead>
@@ -40,24 +43,18 @@
                         <tr>
                             <td>{{ $key }}</td>
                             <?php foreach (config('laravellocalization.supportedLocales') as $locale => $language): ?>
+                                @if($locale != 'en')
                                 <td style="position:relative;">
                                     <a class="translation" data-pk="{{ $locale }}__-__{{ $key }}">{{ array_get($translationGroup, $locale, null) }}</a>
                                     <a href="" style="position: absolute; right: 5px;" class="openRevisionModal"
                                        data-pk="{{ $locale }}__-__{{ $key }}"><i class="fa fa-search-plus"></i></a>
                                 </td>
+                            @endif
                             <?php endforeach; ?>
                         </tr>
                         <?php endforeach; ?>
                         <?php endif; ?>
                         </tbody>
-                        <tfoot>
-                        <tr>
-                            <th>{{ trans('core::core.table.created at') }}</th>
-                            <?php foreach (config('laravellocalization.supportedLocales') as $locale => $language): ?>
-                            <th>{{ $locale }}</th>
-                            <?php endforeach; ?>
-                        </tr>
-                        </tfoot>
                     </table>
                     <!-- /.box-body -->
                 </div>
@@ -211,7 +208,7 @@
     <script type="text/javascript">
         $(function () {
             $('.data-table').dataTable({
-                "paginate": true,
+                "paginate": false,
                 "lengthChange": true,
                 "filter": true,
                 "sort": true,

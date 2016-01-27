@@ -6,7 +6,6 @@ return [
         'change password' => 'wachtwoord veranderen',
         'signout' => 'afmelden',
     ],
-    'password_changed' => 'Uw nieuw wachtwoord is ingesteld.',
     'form' => [
         'titles' => [
             'change_password' => 'Wachtwoord veranderen',
@@ -27,6 +26,23 @@ return [
         ],
         'buttons' => [
             'change_password_save' => 'wachtwoord veranderen',
-        ]
+        ],
     ],
+    'errors' => [
+        'account_disabled' => "Je account is niet langer actief.",
+        //'invalid_credentials' => "Het spijt ons, deze logingegevens zijn niet geldig",
+        'invalid_password' => "Ongeldig paswoord",
+        'no_user_found_with_that_email' => "Er is geen gebruiker met dat e-mail adres geregistreerd in het systeem.",
+        'authentication_generic_error' => "Er ging iets fout tijdens het inloggen.",
+        'invalid_activation_code' => "De code die je gebruikte om je account te activeren, is ongeldig.",
+        'reset_password_failed_unknown_email' => "Geen actieve gebruiker gevonden met dit e-mail adres.",
+        'invalid_input' => 'Ongeldige invoer',
+        'old_password_incorrect' => 'Het oude paswoord dat u hebt ingegeven, klopt niet.',
+        'change_password_generic_error' => 'Er ging iets fout tijdens het veranderen van uw paswoord.',
+    ],
+    'messages' => [
+        'user_already_activated' => "Deze gebruiker is reeds geactiveerd.",
+        'reset_password_email_sent' => "We stuurden zonet een mail naar je toe waarmee je je paswoord opnieuw kunt instellen.",
+        'password_changed' => 'Uw nieuw wachtwoord is ingesteld.',
+    ]
 ];
