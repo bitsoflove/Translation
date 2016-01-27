@@ -17,30 +17,63 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
     {
         $locale = $locale ?: app()->getLocale();
 
-
         //cache all translations of this locale for the length of the request...
-        $that = $this;
-        $all = Cache::remember('all_translations_' . $locale, 0, function() use($locale) {
-            $all = Translation::whereHas('translations', function($q) use ($locale) {
-                $q->where('locale', $locale);
-            })->with(['translations' => function($q) use ($locale) {
-                $q->where('locale', $locale);
-            }])->get();
-            return $all->lists('value', 'key')->toArray();
-        });
+        $all = $this->getAllInLocaleCached($locale);
+        if(isset($all[$key])) {
+            return $all[$key];
+        }
 
-        //return the translation when found, or an empty string
-        return isset($all[$key]) ? $all[$key] : '';
+        //sometimes we request a group of translations. for this, we need the hierarchy.
+        $keySplit = explode('.', $key);
+        $allHierarchical = $this->getAllHierarchicalCached($all, $locale);
+        return isset($allHierarchical[$key]) ? $allHierarchical[$key] : '';
 
+        //legacy code...
         /*
         $translation = $this->model->whereKey($key)->with('translations')->first();
         if ($translation && $translation->hasTranslation($locale)) {
             return $translation->translate($locale)->value;
         }
-
         return '';
         */
+    }
 
+    protected function getAllInLocaleCached($locale) {
+        $that = $this;
+        return Cache::remember('all_translations_' . $locale, 0, function() use($that, $locale) {
+            return $that->getAllInLocale($locale);
+        });
+    }
+
+    protected function getAllInLocale($locale) {
+        $all = Translation::whereHas('translations', function($q) use ($locale) {
+            $q->where('locale', $locale);
+        })->with(['translations' => function($q) use ($locale) {
+            $q->where('locale', $locale);
+        }])->get();
+        return $all->lists('value', 'key')->toArray();
+    }
+
+    protected function getAllHierarchicalCached($all, $locale) {
+        $that = $this;
+        return Cache::remember('all_translations_hierarchical_' . $locale, 0, function() use ($that, $all) {
+            return $that->getAllHierarchical($all);
+        });
+    }
+
+    protected function getAllHierarchical($all) {
+        $out = array();
+        foreach ($all as $key=>$val) {
+            $r = & $out;
+            foreach (explode(".", $key) as $key) {
+                if (!isset($r[$key])) {
+                    $r[$key] = array();
+                }
+                $r = & $r[$key];
+            }
+            $r = $val;
+        }
+        return $out;
     }
 
     public function allFormatted()
@@ -54,6 +87,8 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
                 }
             }
         }
+
+        //dd($allDatabaseTranslations);
 
         return $allDatabaseTranslations;
     }
