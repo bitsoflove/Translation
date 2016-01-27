@@ -61,6 +61,12 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
         });
     }
 
+
+    /**
+     * http://stackoverflow.com/a/6088147/237739
+     * @param $all
+     * @return array
+     */
     protected function getAllHierarchical($all) {
         $out = array();
         foreach ($all as $key=>$val) {
