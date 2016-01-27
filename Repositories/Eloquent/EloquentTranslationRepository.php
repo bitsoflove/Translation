@@ -18,7 +18,7 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
         $locale = $locale ?: app()->getLocale();
 
         //cache all translations of this locale hierarchically for the length of the request...
-        $allHierarchical = $this->getAllHierarchicalCached($locale);
+        $allHierarchical = $this->getAllHierarchicalRequestCached($locale);
         return isset($allHierarchical[$key]) ? $allHierarchical[$key] : '';
 
         //legacy code...
@@ -83,11 +83,18 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
     }
 
 
-    private function getAllHierarchicalCached($locale) {
+    /**
+     * We build an associative array, holding all the translations found in the database for the given locale.
+     * This array is cached, but only for the length of 1 request. Proper caching happens in the CacheTranslationDecorator
+     *
+     * @param $locale
+     * @return mixed
+     */
+    private function getAllHierarchicalRequestCached($locale) {
         $that = $this;
         return Cache::remember('all_translations_hierarchical_' . $locale, 0, function() use ($that, $locale) {
             $all = $that->getAllInLocale($locale);
-            return $that->getAllHierarchical($all);
+            return $that->buildHierarchy($all);
         });
     }
 
@@ -103,12 +110,12 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
 
     /**
      * http://stackoverflow.com/a/6088147/237739
-     * @param $all
+     * @param $array
      * @return array
      */
-    private function getAllHierarchical($all) {
+    private function buildHierarchy($array) {
         $out = array();
-        foreach ($all as $key=>$val) {
+        foreach ($array as $key=>$val) {
             $r = & $out;
             foreach (explode(".", $key) as $key) {
                 if (!isset($r[$key])) {
