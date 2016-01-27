@@ -38,50 +38,6 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
         */
     }
 
-    protected function getAllInLocaleCached($locale) {
-        $that = $this;
-        return Cache::remember('all_translations_' . $locale, 0, function() use($that, $locale) {
-            return $that->getAllInLocale($locale);
-        });
-    }
-
-    protected function getAllInLocale($locale) {
-        $all = Translation::whereHas('translations', function($q) use ($locale) {
-            $q->where('locale', $locale);
-        })->with(['translations' => function($q) use ($locale) {
-            $q->where('locale', $locale);
-        }])->get();
-        return $all->lists('value', 'key')->toArray();
-    }
-
-    protected function getAllHierarchicalCached($all, $locale) {
-        $that = $this;
-        return Cache::remember('all_translations_hierarchical_' . $locale, 0, function() use ($that, $all) {
-            return $that->getAllHierarchical($all);
-        });
-    }
-
-
-    /**
-     * http://stackoverflow.com/a/6088147/237739
-     * @param $all
-     * @return array
-     */
-    protected function getAllHierarchical($all) {
-        $out = array();
-        foreach ($all as $key=>$val) {
-            $r = & $out;
-            foreach (explode(".", $key) as $key) {
-                if (!isset($r[$key])) {
-                    $r[$key] = array();
-                }
-                $r = & $r[$key];
-            }
-            $r = $val;
-        }
-        return $out;
-    }
-
     public function allFormatted()
     {
         $allRows = $this->all();
@@ -133,5 +89,50 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
     {
         $translationTranslation->value = $value;
         $translationTranslation->save();
+    }
+
+
+    protected function getAllInLocaleCached($locale) {
+        $that = $this;
+        return Cache::remember('all_translations_' . $locale, 0, function() use($that, $locale) {
+            return $that->getAllInLocale($locale);
+        });
+    }
+
+    protected function getAllInLocale($locale) {
+        $all = Translation::whereHas('translations', function($q) use ($locale) {
+            $q->where('locale', $locale);
+        })->with(['translations' => function($q) use ($locale) {
+            $q->where('locale', $locale);
+        }])->get();
+        return $all->lists('value', 'key')->toArray();
+    }
+
+    protected function getAllHierarchicalCached($all, $locale) {
+        $that = $this;
+        return Cache::remember('all_translations_hierarchical_' . $locale, 0, function() use ($that, $all) {
+            return $that->getAllHierarchical($all);
+        });
+    }
+
+
+    /**
+     * http://stackoverflow.com/a/6088147/237739
+     * @param $all
+     * @return array
+     */
+    protected function getAllHierarchical($all) {
+        $out = array();
+        foreach ($all as $key=>$val) {
+            $r = & $out;
+            foreach (explode(".", $key) as $key) {
+                if (!isset($r[$key])) {
+                    $r[$key] = array();
+                }
+                $r = & $r[$key];
+            }
+            $r = $val;
+        }
+        return $out;
     }
 }
