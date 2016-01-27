@@ -31,7 +31,7 @@ return [
     'facet_list' => [
         'show_more' => 'show more...',
         'titles' => [
-            'authors' => 'Authos',
+            'authors' => 'Authors',
             'court' => 'Legal authority',
             'place' => 'Place',
             'type' => 'Type',
