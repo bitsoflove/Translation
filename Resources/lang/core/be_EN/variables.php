@@ -35,7 +35,8 @@ return [
             'court' => 'Legal authority',
             'place' => 'Place',
             'type' => 'Type',
-            'class' => 'Source'
+            'class' => 'Class',
+            'source' => 'Source'
         ],
         'refine' => 'Refine'
     ]
