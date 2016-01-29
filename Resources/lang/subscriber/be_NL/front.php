@@ -14,8 +14,10 @@ return [
         'body' => [
             'password_rules' => "Uw wachtwoord moet minstens 6 karakters bevatten.",
             'please_change_your_password_for_the_first_time_title' => "welkom :first_name,",
-            'please_change_your_password_for_the_first_time_text' => "U accepteerde de uitnodiging om <strong class='label label-info'>:site</strong> te raadplegen.<br>Vooraleer u verder kunt gaan, dient u uw wachtwoord te veranderen.<br><br>",
-            'please_change_your_password_for_the_first_time_text_institution' => "U accepteerde de uitnodiging door <strong class='label label-info'>:institution</strong> om <strong class='label label-info'>:site</strong> te raadplegen.<br>Vooraleer u verder kunt gaan, dient u uw wachtwoord te veranderen.<br><br>",
+            'please_change_your_password_for_the_first_time_text_part1' => "U accepteerde de uitnodiging om :site te raadplegen.",
+            'please_change_your_password_for_the_first_time_text_part2' => "Vooraleer u verder kunt gaan, dient u uw wachtwoord te veranderen.",
+            'please_change_your_password_for_the_first_time_text_institution_part1' => "U accepteerde de uitnodiging door :institution om :site te raadplegen.",
+            'please_change_your_password_for_the_first_time_text_institution_part2' => "Vooraleer u verder kunt gaan, dient u uw wachtwoord te veranderen.",
         ],
         'labels' => [
             'wanted_password' => 'Voer uw gewenste wachtwoord in:',
