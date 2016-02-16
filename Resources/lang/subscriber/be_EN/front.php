@@ -26,5 +26,8 @@ return [
         'buttons' => [
             'change_password_save' => 'Change password',
         ]
+    ],
+    'alerts' => [
+        'log_in_to_see_toc' => 'Please log in to see the table of contents.'
     ]
 ];

@@ -46,5 +46,8 @@ return [
         'user_already_activated' => "Deze gebruiker is reeds geactiveerd.",
         'reset_password_email_sent' => "We stuurden zonet een mail naar je toe waarmee je je paswoord opnieuw kunt instellen.",
         'password_changed' => 'Uw nieuw wachtwoord is ingesteld.',
+    ],
+    'alerts' => [
+        'log_in_to_see_toc' => 'Gelieve in te loggen om de inhoud van een tijdschrift of boek te bekijken.'
     ]
 ];
