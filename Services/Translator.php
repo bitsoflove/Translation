@@ -34,6 +34,14 @@ class Translator extends \Illuminate\Translation\Translator
         //because some of our translations might not have been persisted to the database yet
         //@todo this expensive array_merge_recursive_distinct isn't cached yet...
         $original = parent::get($key, $replace, $locale);
+
+        // If there is no file found, use the database, and log a warning.
+        if (!is_array($original)) {
+            $original = [];
+
+            \Log::warning("No lang file found for key '$key' and locale '$locale'. See Translation module.");
+        }
+
         $merged = $this->array_merge_recursive_distinct($original, $translation);
         return $this->makeReplacements($merged, $replace);
     }
