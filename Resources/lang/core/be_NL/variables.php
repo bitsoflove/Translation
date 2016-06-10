@@ -4,15 +4,22 @@ return [
     'tree' => [
         'volumes' => 'Jaargangen'
     ],
+    'search' => [
+        'slug' => 'zoeken'
+    ],
     'alert' => [
         'not_logged_in' => 'Niet ingelogd',
         'message' => 'Om de inhoud van de artikelen te raadplegen dient u zich aan te melden.'
+    ],
+    'recent' => [
+        'title' => 'Inhoudstafel'
     ],
     'sidebar' => [
         'search' => 'Zoek',
         'erase_all' => 'wis alles',
         'search_by_text' => 'Zoek op tekst',
         'full_text' => 'Volledige tekst',
+        'choose' => 'Kies',
         'full_text_placeholder' => 'bv. onderwijs',
         'author' => 'Auteur',
         'author_placeholder' => 'bv. Raf Verstegen',
@@ -21,7 +28,14 @@ return [
         'date_to' => 'Datum tot',
         'date_to_placeholder' => 'bv. 30-06-2015'
     ],
+    'magazines' => [
+        'overview' => 'Overzicht',
+        'webshop' => 'Webshop'
+    ],
     'results' => [
+        'edition' => 'nr.',
+        'results' => 'Resultaten',
+        'for' => 'voor',
         'more_results' => 'Meer resultaten',
         'no_results' => 'Geen resultaten'
     ],
