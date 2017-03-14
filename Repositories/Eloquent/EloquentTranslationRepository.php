@@ -117,6 +117,7 @@ class EloquentTranslationRepository extends EloquentBaseRepository implements Tr
         $out = array();
         foreach ($array as $key=>$val) {
             $r = & $out;
+            $r[$key] = $val;
             foreach (explode(".", $key) as $key) {
                 if (!isset($r[$key])) {
                     $r[$key] = array();
